@@ -69,8 +69,8 @@ DEBUG=True
 > 👉 Set Up Database
 
 ```bash
-$ python manage.py makemigrations
-$ python manage.py migrate
+$ python3 manage.py makemigrations
+$ python3 manage.py migrate
 ```
 
 <br />
@@ -78,7 +78,7 @@ $ python manage.py migrate
 > 👉 Create the Superuser
 
 ```bash
-$ python manage.py createsuperuser
+$ python3 manage.py createsuperuser
 ```
 
 <br />
@@ -86,7 +86,7 @@ $ python manage.py createsuperuser
 > 👉 Start the app
 
 ```bash
-$ python manage.py runserver
+$ python3 manage.py runserver
 ```
 
 At this point, the app runs at `http://127.0.0.1:8000/`. 

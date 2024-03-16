@@ -1,0 +1,42 @@
+<div class="col-lg-6 col-md-12">
+    <div class="card ">
+        <div class="card-header">
+            <h4 class="card-title"> Simple Table</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table tablesorter " id="">
+                    <thead class=" text-primary">
+                        <tr>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                Country
+                            </th>
+                            <th>
+                                City
+                            </th>
+                            <th class="text-center">
+                                Salary
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                    {% for contact in contacts %}
+                        <tr>
+                            {% for key, data in contact.items %}
+                            <td>
+                            {{data}}
+                            </td>
+                        {% endfor %}
+                        </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
