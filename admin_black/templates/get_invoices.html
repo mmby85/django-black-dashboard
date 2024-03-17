@@ -1,0 +1,19 @@
+<form method="POST">
+    {{form}}
+    <input type="submit" value="Submit">
+</form>
+
+<div>
+    <table>
+        {% for invoice in invoices %}
+        <tr>
+            <td>{{invoice.id}}</td>
+            <td>{{invoice.customer.first_name}}</td>
+            <td>{{invoice.customer.last_name}}</td>
+            <td>{{invoice.amount}}</td>
+            <td>{{invoice.date}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>

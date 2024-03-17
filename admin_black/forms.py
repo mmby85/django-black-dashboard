@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, Pass
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 
+from .models import Customer, Invoice
+
 class RegistrationForm(UserCreationForm):
   password1 = forms.CharField(
       label=_("Password"),
@@ -71,3 +73,9 @@ class UserPasswordChangeForm(PasswordChangeForm):
         'class': 'form-control',
         'placeholder': 'Confirm New Password'
     }), label="Confirm New Password")
+
+class InvoiceForm(forms.ModelForm):
+   class Meta:
+      model= Invoice
+      fields = '__all__'
+   

@@ -31,5 +31,7 @@ urlpatterns = [
         template_name='accounts/password_reset_done.html'
     ), name='password_reset_done'),
     path('accounts/logout/', views.user_logout_view, name='logout'),
+    path('all_invoices/', views.all_invoices, name='invoices'),
+
 
 ]

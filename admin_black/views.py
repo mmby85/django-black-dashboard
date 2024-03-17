@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from admin_black.forms import RegistrationForm,LoginForm,UserPasswordResetForm,UserSetPasswordForm,UserPasswordChangeForm
+from admin_black.forms import RegistrationForm,LoginForm,UserPasswordResetForm,UserSetPasswordForm,UserPasswordChangeForm, InvoiceForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+
+from .models import Customer, Invoice
 
 from .data_processing import custmers
 
@@ -50,7 +52,7 @@ def dashboard(request):
     context = {
     'parent': 'pages',
     'segment': 'dashboard',
-    'odoo' : 'Application Dashboard avec extration données de ODOO',
+    'odoo' : 'DASHBOARD GROUPAXION',
     'contacts' : custmers,
     'test' : 
     [{ "Name" : "Dakota Rice", "Country" : "Niger","City" : "Oud-Turnhout","SALARY": "36,738" } , 
@@ -67,7 +69,7 @@ def main(request):
   }
     return render(request, 'pages/dashboard.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def icons(request):
     context = {
     'parent': 'pages',
@@ -75,7 +77,7 @@ def icons(request):
   }
     return render(request, 'pages/icons.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def map(request):
     context = {
     'parent': 'pages',
@@ -83,7 +85,7 @@ def map(request):
   }
     return render(request, 'pages/map.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def notifications(request):
     context = {
     'parent': 'pages',
@@ -91,7 +93,7 @@ def notifications(request):
   }
     return render(request, 'pages/notifications.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def user_profile(request):
     context = {
     'parent': 'pages',
@@ -99,7 +101,7 @@ def user_profile(request):
   }
     return render(request, 'pages/user.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def tables(request):
     context = {
     'parent': 'pages',
@@ -107,7 +109,7 @@ def tables(request):
   }
     return render(request, 'pages/tables.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def typography(request):
     context = {
     'parent': 'pages',
@@ -115,7 +117,7 @@ def typography(request):
   }
     return render(request, 'pages/typography.html', context)
 
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def rtl(request):
     context = {
     'parent': 'pages',
@@ -123,10 +125,20 @@ def rtl(request):
   }
     return render(request, 'pages/rtl.html', context)
   
-@login_required(login_url='/accounts/auth-signin')
+# @login_required(login_url='/accounts/auth-signin')
 def upgrade(request):
     context = {
     'parent': 'pages',
     'segment': 'upgrade'
   }
     return render(request, 'pages/upgrade.html', context)
+
+
+def all_invoices(request):
+  if request.method == "GET" :
+     print(request.GET)
+
+  form = InvoiceForm()
+  invoices= Invoice.objects.all()
+  print(invoices[0].customer.first_name)
+  return render(request, 'get_invoices.html', context={'invoices' : invoices, 'form': form})
