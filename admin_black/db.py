@@ -33,11 +33,27 @@ def get_invoice_info():
     data = research("account.move")
     return [ [(k,v)for k, v in data[i].items() if  "invoice" in k ] for i in range(len(data)) ]
 
-def research(model):
+def get_filtred_data(model):
   models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
-  data = models.execute_kw(db, uid, password, model, 'search_read', [[]] )
-  filtered_data = {k: v for k, v in data[0].items() if v is not False}
-  print(filtered_data)
+  data = models.execute_kw(db, uid, password, model, 'search_read', [] )
+#   filtered_data = {k: v for k, v in data[0].items() if v is not False}
+  return data
+
+def count_customers():
+    data = get_filtred_data("account.move")
+    df = pd.DataFrame(data)
+    return len(df[df['state'] == 'posted']['partner_id'].map(lambda s : s[1] if s else "-").unique())
+
+def get_CA():
+    data = get_filtred_data("account.move")
+    df = pd.DataFrame(data)
+    return df['amount_total'].sum()
+
+def get_CA_Potential():
+    data = get_filtred_data("account.move")
+    df = pd.DataFrame(data)
+    return df[df['payment_state'] == 'paid']['amount_total'].sum()
+
 
 uid, common = odoo_auth()
 

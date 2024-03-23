@@ -385,50 +385,50 @@ demo = {
     });
 
 
-    // var ctxGreen = document.getElementById("chartLineGreen").getContext("2d");
+    var ctxGreen = document.getElementById("chartLineGreen").getContext("2d");
 
-    // var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+    var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
 
-    // gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
-    // gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
-    // gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
+    gradientStroke.addColorStop(1, 'rgba(66,134,121,0.15)');
+    gradientStroke.addColorStop(0.4, 'rgba(66,134,121,0.0)'); //green colors
+    gradientStroke.addColorStop(0, 'rgba(66,134,121,0)'); //green colors
 
-    // var data = {
-    //   labels: django_items["labels"],
-    //   datasets: [{
-    //     label: "My First dataset",
-    //     fill: true,
-    //     backgroundColor: gradientStroke,
-    //     borderColor: '#00d6b4',
-    //     borderWidth: 2,
-    //     borderDash: [],
-    //     borderDashOffset: 0.0,
-    //     pointBackgroundColor: '#00d6b4',
-    //     pointBorderColor: 'rgba(255,255,255,0)',
-    //     pointHoverBackgroundColor: '#00d6b4',
-    //     pointBorderWidth: 20,
-    //     pointHoverRadius: 4,
-    //     pointHoverBorderWidth: 15,
-    //     pointRadius: 4,
-    //     data: [90, 27, 60, 12, 80],
-    //   }]
-    // };
+    var data = {
+      labels: ['JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'],
+      datasets: [{
+        label: "My First dataset",
+        fill: true,
+        backgroundColor: gradientStroke,
+        borderColor: '#00d6b4',
+        borderWidth: 2,
+        borderDash: [],
+        borderDashOffset: 0.0,
+        pointBackgroundColor: '#00d6b4',
+        pointBorderColor: 'rgba(255,255,255,0)',
+        pointHoverBackgroundColor: '#00d6b4',
+        pointBorderWidth: 20,
+        pointHoverRadius: 4,
+        pointHoverBorderWidth: 15,
+        pointRadius: 4,
+        data: [90, 27, 60, 12, 80],
+      }]
+    };
 
-    // var myChart = new Chart(ctxGreen, {
-    //   type: 'radar',
-    //   data: data,
-    //   options: {
-    //     responsive: true,
-    //     plugins: {
-    //       title: {
-    //         display: true,
-    //         text: 'Chart.js Radar Chart'
-    //       }
-    //     }
-    //   },
-    //   // gradientChartOptionsConfigurationWithTooltipGreen
+    var myChart = new Chart(ctxGreen, {
+      type: 'radar',
+      data: data,
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: 'Chart.js Radar Chart'
+          }
+        }
+      },
+      // gradientChartOptionsConfigurationWithTooltipGreen
 
-    // });
+    });
 
 
 

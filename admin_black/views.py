@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Customer, Invoice
 
-from .data_processing import custmers
+from .data_processing import custmers, custmers_count, CA, CAP
 
 def auth_signup(request):
   if request.method == 'POST':
@@ -53,12 +53,16 @@ def dashboard(request):
     'parent': 'pages',
     'segment': 'dashboard',
     'odoo' : 'DASHBOARD GROUPAXION',
-    'contacts' : custmers,
+    'contacts' : custmers[:4],
     'test' : 
     [{ "Name" : "Dakota Rice", "Country" : "Niger","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "Tunisia","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "France","City" : "Oud-Turnhout","SALARY": "36,738" }],
-    'labels' : [ name['name'] for name in custmers ],
+    'labels' : [ name['name'] for name in custmers[:5] ],
+    'customers_count' : custmers_count,
+    "CAP" : CAP.round(3),
+    "CA" : CA.round(3),
+
   }
     return render(request, 'pages/dashboard.html', context)
 
