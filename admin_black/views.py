@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Customer, Invoice
 
-from .data_processing import custmers, custmers_count, CA, CAP
+from .data_processing import custmers, custmers_count, CA, CAP, CAPMOIS
 
 def auth_signup(request):
   if request.method == 'POST':
@@ -49,6 +49,7 @@ def user_logout_view(request):
 
 # Pages -- Dashboard
 def dashboard(request):
+
     context = {
     'parent': 'pages',
     'segment': 'dashboard',
@@ -62,6 +63,8 @@ def dashboard(request):
     'customers_count' : "{:,}".format(custmers_count).replace(',' , ' '),
     "CAP" : "{:,}".format(CAP.round(4)).replace(',' , ' '),
     "CA" : "{:,}".format(CA.round(4)).replace(',' , ' '),
+    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "bar" },
+    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "bar" }
 
   }
     return render(request, 'pages/dashboard.html', context)
