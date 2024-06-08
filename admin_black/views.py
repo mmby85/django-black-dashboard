@@ -59,9 +59,9 @@ def dashboard(request):
     { "Name" : "Dakota Rice", "Country" : "Tunisia","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "France","City" : "Oud-Turnhout","SALARY": "36,738" }],
     'labels' : [ name['name'] for name in custmers[:5] ],
-    'customers_count' : custmers_count,
-    "CAP" : CAP.round(3),
-    "CA" : CA.round(3),
+    'customers_count' : "{:,}".format(custmers_count).replace(',' , ' '),
+    "CAP" : "{:,}".format(CAP.round(4)).replace(',' , ' '),
+    "CA" : "{:,}".format(CA.round(4)).replace(',' , ' '),
 
   }
     return render(request, 'pages/dashboard.html', context)

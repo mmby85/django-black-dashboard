@@ -31,7 +31,8 @@ def research(model):
 
 def get_invoice_info():
     data = research("account.move")
-    return [ [(k,v)for k, v in data[i].items() if  "invoice" in k ] for i in range(len(data)) ]
+    return [ { k : v for k, v in data[i].items() if  "invoice" in k } for i in range(len(data)) ]
+    # return [ [(k,v) for k, v in data[i].items() if  "invoice" in k ] for i in range(len(data)) ]
 
 def get_filtred_data(model):
   models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
