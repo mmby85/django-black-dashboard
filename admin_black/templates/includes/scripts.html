@@ -27,12 +27,17 @@
         demo.DrawChart( {{chiffre_affaire.data}}, {{chiffre_affaire.labels}}, 
         '{{chiffre_affaire.id}}','{{chiffre_affaire.type}}');
 
-        demo.DrawChart( {{client.data}}, {{client.labels}}, 
-        '{{client.id}}','{{client.type}}');
+
+        
+        
+            demo.DrawChart( {{client.data}}, {{client.labels}}, 
+            '{{client.id}}','{{client.type}}');
 
 
     });
 </script>
+
+
 <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
 <script>
     window.TrackJS &&
@@ -43,3 +48,4 @@
 
 
 </script>
+

@@ -2,8 +2,8 @@ import xmlrpc.client
 import os 
 from dotenv import load_dotenv
 import pandas as pd
-import numpy as np 
-
+import numpy as np
+from .extraction import *
 load_dotenv()  # take environment variables from .env.
 
 url =  os.environ.get("URL")
