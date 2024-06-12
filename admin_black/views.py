@@ -63,11 +63,12 @@ def dashboard(request):
     'customers_count' : "{:,}".format(custmers_count).replace(',' , ' '),
     "CAP" : "{:,}".format(CAP.round(4)).replace(',' , ' '),
     "CA" : "{:,}".format(CA.round(4)).replace(',' , ' '),
-    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "bar" },
-    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "bar" },
+    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
+    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
     "chiffreaffaire" : chiffreaffaire.round(4) ,
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
+ 
   }
     return render(request, 'pages/dashboard.html', context)
 

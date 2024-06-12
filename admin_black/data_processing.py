@@ -1,6 +1,6 @@
 from .db import get_costumers, count_customers, get_CA, get_CA_Potential, invoices_df, total_sales_by_period
 from .KPIs import *
-from .KPIs import ventes_par_client
+from .KPIs import ventes_par_client , NombreFactures 
 custmers = get_costumers()
 custmers_count = count_customers()
 CA= get_CA()
