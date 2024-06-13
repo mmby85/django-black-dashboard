@@ -13,6 +13,7 @@ env
 *.sqlite*
 
 .env
+venv
 node_modules
 yarn.lock
 
