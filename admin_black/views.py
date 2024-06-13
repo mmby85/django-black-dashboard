@@ -68,6 +68,8 @@ def dashboard(request):
     "chiffreaffaire" : chiffreaffaire.round(4) ,
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
+    "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "Employee_sales" , "type" : "bar" },
+
  
   }
     return render(request, 'pages/dashboard.html', context)

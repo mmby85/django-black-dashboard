@@ -60,5 +60,5 @@ visualize_total_sales_year(invoices_df)
 
 def ventes_par_client(invoices_df):
   employee_sales = invoices_df.groupby('partner_name').agg(total_revenue=('amount_total', 'sum')).reset_index()
-  employee_sales = employee_sales.sort_values(by='total_revenue', ascending=False)
+  employee_sales = employee_sales.sort_values(by='total_revenue', ascending=False).set_index('partner_name')
   return employee_sales

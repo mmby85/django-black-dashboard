@@ -18,7 +18,8 @@
 <script src="{% static 'assets/js/themeSettings.js' %}"></script>
 
 <script>
-    console.log({{chiffre_affaire.data}}, {{chiffre_affaire.labels}}, '{{chiffre_affaire.id}}', '{{chiffre_affaire.type}}')
+    console.log({{employee_sales.data|safe}}, {{employee_sales.labels|safe}}, 
+    '{{employee_sales.id}}','{{employee_sales.type}}')
     $(document).ready(function () {
         // Javascript method's body can be found in assets/js/demos.js
         var chart_data = [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
@@ -27,6 +28,8 @@
         demo.DrawChart( {{chiffre_affaire.data}}, {{chiffre_affaire.labels}}, 
         '{{chiffre_affaire.id}}','{{chiffre_affaire.type}}');
         
+        demo.DrawChart( {{employee_sales.data}}, {{employee_sales.labels|safe}}, 
+        '{{employee_sales.id}}','{{employee_sales.type}}');
 
         
         
