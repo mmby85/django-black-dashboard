@@ -68,7 +68,7 @@ def dashboard(request):
     "chiffreaffaire" : chiffreaffaire.round(4) ,
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
-    "employee_sales" : {"data" : employee_sales.tolist() , "labels" : employee_sales.index.tolist(), "id" : "Employee_sales" , "type" : "bar" },
+    "employee_sales" : {"data" : employeesales.tolist() , "labels" : employeesales.index.tolist(), "id" : "Employee_sales" , "type" : "bar" },
 
 
   }

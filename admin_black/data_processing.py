@@ -1,6 +1,5 @@
 from .db import get_costumers, count_customers, get_CA, get_CA_Potential, invoices_df, total_sales_by_period
 from .KPIs import *
-from .KPIs import ventes_par_client , NombreFactures 
 custmers = get_costumers()
 custmers_count = count_customers()
 CA= get_CA()
@@ -13,3 +12,6 @@ chiffreaffaire = Chiffreaffaire(invoices_df)
 nombreClient = NombreClient(invoices_df)
 nombreFactures = NombreFactures(invoices_df)
 employee_sales = ventes_par_client(invoices_df)
+
+CA_par_produit = top_products_sold(product_details_df)
+revenu_produit = Revenu_par_produit(product_details_df)

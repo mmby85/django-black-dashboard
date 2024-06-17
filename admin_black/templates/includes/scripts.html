@@ -31,10 +31,13 @@
         demo.DrawChart( {{employee_sales.data}}, {{employee_sales.labels|safe}}, 
         '{{employee_sales.id}}','{{employee_sales.type}}');
 
-        
-        
-            demo.DrawChart( {{client.data}}, {{client.labels}}, 
-            '{{client.id}}','{{client.type}}');
+        demo.DrawChart( {{revenu_produit.data}}, {{revenu_produit.labels|safe}}, 
+        '{{revenu_produit.id}}','{{revenu_produit.type}}');        
+        demo.DrawChart( {{ca_par_produit.data}}, {{ca_par_produit.labels|safe}}, 
+        '{{ca_par_produit.id}}','{{ca_par_produit.type}}');  
+
+        demo.DrawChart( {{client.data}}, {{client.labels}}, 
+        '{{client.id}}','{{client.type}}');
 
 
     });

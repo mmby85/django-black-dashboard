@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Customer, Invoice
 
-from .data_processing import custmers, custmers_count, CA, CAP, CAPMOIS , employee_sales , nombreFactures , nombreClient , chiffreaffaire
-
+from .data_processing import custmers, custmers_count, CA, CAP, CAPMOIS , employee_sales , nombreFactures , nombreClient , chiffreaffaire ,revenu_produit 
+from .data_processing import *
 def auth_signup(request):
   if request.method == 'POST':
       form = RegistrationForm(request.POST)
@@ -49,7 +49,9 @@ def user_logout_view(request):
 
 # Pages -- Dashboard
 def dashboard(request):
-
+    xx = revenu_produit.product_name.to_list()[:2]
+    xx[0] = xx[0][:10]
+    xx[1] = xx[1][:10]
     context = {
     'parent': 'pages',
     'segment': 'dashboard',
@@ -69,6 +71,9 @@ def dashboard(request):
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
     "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "Employee_sales" , "type" : "bar" },
+    "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , "labels" : CA_par_produit.index.to_list(), "id" : "CA_par_produit" , "type" : "bar" },
+
+    "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
 
  
   }
@@ -82,12 +87,12 @@ def main(request):
     return render(request, 'pages/dashboard.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
-def icons(request):
+def factures(request):
     context = {
     'parent': 'pages',
-    'segment': 'icons'
-  }
-    return render(request, 'pages/icons.html', context)
+    'segment': 'factures',
+    }
+    return render(request, 'pages/factures.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
 def map(request):
@@ -114,12 +119,12 @@ def user_profile(request):
     return render(request, 'pages/user.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
-def tables(request):
+def clients(request):
     context = {
     'parent': 'pages',
-    'segment': 'tables'
+    'segment': 'clients'
   }
-    return render(request, 'pages/tables.html', context)
+    return render(request, 'pages/clients.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
 def typography(request):
