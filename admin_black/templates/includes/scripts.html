@@ -22,22 +22,25 @@
     '{{employee_sales.id}}','{{employee_sales.type}}')
     $(document).ready(function () {
         // Javascript method's body can be found in assets/js/demos.js
-        var month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+        var month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var chart_data = [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120];
 
-        demo.drawX({{ca_mois.data|safe}}, month_names ,'{{ca_mois.id}}','{{ca_mois.type}}');
+        demo.drawX({{ca_mois.data|safe}}, month_names ,'{{ca_mois.id}}','{{ca_mois.type}}' , {{ca_quarter.data|safe}},  
+        {{ca_year.data|safe}} ,{{ca_quarter.labels|safe}},  {{ca_year.labels|safe}});
 
         // demo.initDashboardPageCharts(chart_data);
         
-        // demo.DrawChart( {{employee_sales.data}}, {{employee_sales.labels|safe}}, 
-        // '{{employee_sales.id}}','{{employee_sales.type}}');
+        demo.DrawChart( {{employee_sales.data}}, {{employee_sales.labels|safe}}, 
+        '{{employee_sales.id}}','{{employee_sales.type}}');
 
-        // demo.DrawChart( {{revenu_produit.data}}, {{revenu_produit.labels|safe}}, 
-        // '{{revenu_produit.id}}','{{revenu_produit.type}}');        
-        // demo.DrawChart( {{ca_par_produit.data}}, {{ca_par_produit.labels|safe}}, 
-        // '{{ca_par_produit.id}}','{{ca_par_produit.type}}');  
+        demo.DrawChart( {{revenu_produit.data}}, {{revenu_produit.labels|safe}}, 
+        '{{revenu_produit.id}}','{{revenu_produit.type}}');  
 
-        // demo.DrawChart( {{client.data}}, {{client.labels}}, 
-        //  '{{client.id}}','{{client.type}}');
+        demo.DrawChart( {{ca_par_produit.data}}, {{ca_par_produit.labels|safe}}, 
+        '{{ca_par_produit.id}}','{{ca_par_produit.type}}');  
+
+        demo.DrawChart( {{client.data}}, {{client.labels}}, 
+         '{{client.id}}','{{client.type}}');
 
 
     });

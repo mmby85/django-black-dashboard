@@ -67,13 +67,15 @@ def dashboard(request):
     "nombreFactures": nombreFactures,
 
     "ca_mois" : {"data" : CA_mois.tolist() , "labels" : CA_mois.index.to_list(), "id" : "ca_mois" , "type" : "line"},
-    # "ca_year" : {"data" : CA_year.tolist() , "labels" : CA_mois.index.to_list()},
-    # "ca_quarter" : {"data" : CA_quarter.tolist() , "labels" : CA_quarter.index.to_list()},
+    "ca_year" : {"data" : CA_year.tolist() , "labels" : CA_year.index.to_list()},
+    "ca_quarter" : {"data" : CA_quarter.tolist() , "labels" : CA_quarter.index.to_list()},
 
     "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "employee_sales" , "type" : "bar" },
-    # "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , "labels" : CA_par_produit.index.to_list(), "id" : "CA_par_produit" , "type" : "bar" },
-    # "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
+    "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , 
+                        "labels" :  CA_par_produit.index.to_list(),  "id" : "CA_par_produit" , "type" : "bar" }, 
+    "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
   }
+    print(context)
     return render(request, 'pages/dashboard.html', context)
 
 def main(request):
