@@ -1293,7 +1293,7 @@ drawX: function(chart_data,labels, id, type) {
     options: gradientChartOptionsConfigurationWithTooltipPurple
   };
 
-}
 
+}
 }
 
