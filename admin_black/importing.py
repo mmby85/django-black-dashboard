@@ -1,10 +1,4 @@
-import numpy as np
-import xmlrpc.client
 import pandas as pd
-from dotenv import load_dotenv
-import numpy as np
-import os
-load_dotenv()  # take environment variables from .env.
 
 def dataimporting():
   invoices_df = pd.read_excel(open('admin_black\\data.xlsx', 'rb'),sheet_name='invoices_df')
@@ -17,6 +11,6 @@ def dataimporting():
   CRM_lead = pd.read_excel(open('admin_black\\data.xlsx', 'rb'),sheet_name='CRM_lead')
   employee_data = pd.read_excel(open('admin_black\\data.xlsx', 'rb'),sheet_name='employee_data')
 
-  return invoices_df , product_details_df ,joined_df, products_df
+  return invoices_df , product_details_df ,joined_df, products_df , CRM_tag, CRM_Stage, CRM_Team, CRM_lead , employee_data
 
-invoices_df , product_details_df ,joined_df, products_df= dataimporting()
+invoices_df , product_details_df ,joined_df, products_df , CRM_tag, CRM_Stage, CRM_Team, CRM_lead , employee_data = dataimporting()

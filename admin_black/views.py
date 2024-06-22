@@ -3,11 +3,9 @@ from admin_black.forms import RegistrationForm,LoginForm,UserPasswordResetForm,U
 from django.contrib.auth import views as auth_views
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
-
 from .models import Customer, Invoice
-
-from .data_processing import custmers, custmers_count, CA, CAP, CAPMOIS , employee_sales , nombreFactures , nombreClient , chiffreaffaire ,revenu_produit 
 from .data_processing import *
+from .data_processing import CA_mois , CA_quarter , CA_year
 def auth_signup(request):
   if request.method == 'POST':
       form = RegistrationForm(request.POST)
@@ -56,26 +54,25 @@ def dashboard(request):
     'parent': 'pages',
     'segment': 'dashboard',
     'odoo' : 'DASHBOARD GROUPAXION',
-    'contacts' : custmers[:4],
+    'facturess' : facturess[:4],
     'test' : 
     [{ "Name" : "Dakota Rice", "Country" : "Niger","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "Tunisia","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "France","City" : "Oud-Turnhout","SALARY": "36,738" }],
-    'labels' : [ name['name'] for name in custmers[:5] ],
-    'customers_count' : "{:,}".format(custmers_count).replace(',' , ' '),
-    "CAP" : "{:,}".format(CAP.round(4)).replace(',' , ' '),
-    "CA" : "{:,}".format(CA.round(4)).replace(',' , ' '),
+    'labels' : [ name['name'] for name in facturess[:5] ],
     "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
     "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
     "chiffreaffaire" : chiffreaffaire.round(4) ,
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
-    "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "Employee_sales" , "type" : "bar" },
-    "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , "labels" : CA_par_produit.index.to_list(), "id" : "CA_par_produit" , "type" : "bar" },
 
-    "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
+    "ca_mois" : {"data" : CA_mois.tolist() , "labels" : CA_mois.index.to_list(), "id" : "ca_mois" , "type" : "line"},
+    # "ca_year" : {"data" : CA_year.tolist() , "labels" : CA_mois.index.to_list()},
+    # "ca_quarter" : {"data" : CA_quarter.tolist() , "labels" : CA_quarter.index.to_list()},
 
- 
+    "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "employee_sales" , "type" : "bar" },
+    # "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , "labels" : CA_par_produit.index.to_list(), "id" : "CA_par_produit" , "type" : "bar" },
+    # "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
   }
     return render(request, 'pages/dashboard.html', context)
 

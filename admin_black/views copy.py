@@ -62,7 +62,6 @@ def dashboard(request):
     'labels' : [ name['name'] for name in custmers[:5] ],
     'customers_count' : "{:,}".format(custmers_count).replace(',' , ' '),
     "CAP" : "{:,}".format(CAP.round(4)).replace(',' , ' '),
-    "CA" : "{:,}".format(CA.round(4)).replace(',' , ' '),
     "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "bar" },
     "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "bar" },
     "chiffreaffaire" : chiffreaffaire.round(4) ,

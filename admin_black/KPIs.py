@@ -4,6 +4,25 @@ import numpy as np
 from .importing import invoices_df , product_details_df ,joined_df, products_df
 
 
+# ---- a revoir et ne pas toucher pour le moment : 
+def factures(invoices_df):
+  var = invoices_df[['name', 'date', 'amount_total', 'partner_name']].to_dict('records')
+  return var
+
+
+def total_sales_by_period(df, period):
+    if period == "month":
+        return df.groupby(df["date"].dt.month)["amount_total"].sum()
+    elif period == "quarter":
+        return df.groupby(df["date"].dt.quarter)["amount_total"].sum()
+    elif period == "year":
+        return df.groupby(df["date"].dt.year)["amount_total"].sum()
+    else:
+        raise ValueError("Invalid period. Please choose from 'month', 'quarter', or 'year'.")
+
+
+
+
 # chiffre d'affaire globale : 
 def Chiffreaffaire(invoices_df):
     return invoices_df['amount_total'].sum()
@@ -46,17 +65,17 @@ def visualize_total_sales_quarter(df):
 
 # CA par annee :
 def visualize_total_sales_year(df):
-  unique_year = df["date"].dt.year.unique()
-  sales_by_year = pd.DataFrame({
-      "month": range(1, len(unique_year)+1),
-      "total_sales": 0
-  })
-  for year in unique_year:
-    sales_by_year.loc[year - 2019, "total_sales"] = df[df["date"].dt.year == year]["amount_total"].sum()
-  sales_by_year.set_index("month", inplace=True)
-  x = sales_by_year["total_sales"]
-  return x
-
+    unique_years = df["date"].dt.year.unique()
+    all_years = range(min(unique_years), max(unique_years) + 1)
+    sales_by_year = pd.DataFrame({
+        "year": all_years,
+        "total_sales": 0
+    })
+    for year in unique_years:
+        sales_by_year.loc[sales_by_year["year"] == year, "total_sales"] = df[df["date"].dt.year == year]["amount_total"].sum()
+    x = sales_by_year["total_sales"]
+    x.index = sales_by_year["year"]
+    return x
 # CA par client :
 def ventes_par_client(invoices_df):
   employee_sales = invoices_df.groupby('partner_name').agg(total_revenue=('amount_total', 'sum')).reset_index()
