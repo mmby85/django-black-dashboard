@@ -455,6 +455,7 @@ demo = {
       options: gradientChartOptionsConfigurationWithTooltipPurple
     };
     var myChartData = new Chart(ctx, config);
+
     $("#0").click(function() {
       var data = myChartData.config.data;
       chart_data[4] = 200
@@ -1018,7 +1019,7 @@ demo = {
 
 },
 
-drawX: function(chart_data,labels, id, type) {
+ drawX: function(chart_data,labels, id, type, dataSem, dataYear, labelSem, labelYear) {
 
   gradientChartOptionsConfigurationWithTooltipBlue = {
     maintainAspectRatio: false,
@@ -1293,6 +1294,33 @@ drawX: function(chart_data,labels, id, type) {
     options: gradientChartOptionsConfigurationWithTooltipPurple
   };
 
+  var myChartData = new Chart(ctx, config);
+
+  $("#0").click(function() {
+    var data = myChartData.config.data;
+    chart_data[4] = 200
+    data.datasets[0].data = chart_data;
+    data.labels = chart_labels;
+    myChartData.update();
+  });
+  $("#1").click(function() {
+    var chart_data = dataSem;
+    var data = myChartData.config.data;
+    data.datasets[0].data = chart_data;
+    data.labels = labelSem;
+    myChartData.update();
+  });
+
+  $("#2").click(function() {
+    var chart_data = dataYear;
+    var data = myChartData.config.data;
+    data.datasets[0].data = chart_data;
+    data.labels = labelYear;
+    myChartData.update();
+  });
+
+
+}
 
 }
 }

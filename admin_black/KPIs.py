@@ -63,7 +63,7 @@ def visualize_total_sales_quarter(df):
   x.index = ["Q1", "Q2", "Q3", "Q4"]
   return x
 
-# CA par annee :
+''' CA par annee :'''
 def visualize_total_sales_year(df):
     unique_years = df["date"].dt.year.unique()
     all_years = range(min(unique_years), max(unique_years) + 1)
