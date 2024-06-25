@@ -28,20 +28,23 @@
         demo.drawX({{ca_mois.data|safe}}, month_names ,'{{ca_mois.id}}','{{ca_mois.type}}' , {{ca_quarter.data|safe}},  
         {{ca_year.data|safe}} ,{{ca_quarter.labels|safe}},  {{ca_year.labels|safe}});
 
+        demo.DrawChart( {{crm_statut.data|safe}}, {{crm_statut.labels|safe}}, 
+        '{{crm_statut.id}}','{{crm_statut.type}}');
         // demo.initDashboardPageCharts(chart_data);
-        
-        demo.DrawChart( {{employee_sales.data}}, {{employee_sales.labels|safe}}, 
+        demo.DrawChart( {{ca_par_employee.data|safe}}, {{ca_par_employee.labels|safe}}, 
+        '{{ca_par_employee.id}}','{{ca_par_employee.type}}');
+        demo.DrawChart( {{employee_sales.data|safe}}, {{employee_sales.labels|safe}}, 
         '{{employee_sales.id}}','{{employee_sales.type}}');
-
-        demo.DrawChart( {{revenu_produit.data}}, {{revenu_produit.labels|safe}}, 
+        demo.DrawChart( {{revenu_produit.data|safe}}, {{revenu_produit.labels|safe}}, 
         '{{revenu_produit.id}}','{{revenu_produit.type}}');  
 
-        demo.DrawChart( {{ca_par_produit.data}}, {{ca_par_produit.labels|safe}}, 
+        demo.DrawChart( {{ca_par_produit.data|safe}}, {{ca_par_produit.labels|safe}}, 
         '{{ca_par_produit.id}}','{{ca_par_produit.type}}');  
-
-        demo.DrawChart( {{client.data}}, {{client.labels}}, 
+        demo.DrawChart( {{client.data|safe}}, {{client.labels|safe}}, 
          '{{client.id}}','{{client.type}}');
 
+        // demo.DrawChart( {{facture_mois.data|safe}}, {{facture_mois.labels|safe}}, 
+        // '{{facture_mois.id}}','{{facture_mois.type}}');      
 
     });
 </script>

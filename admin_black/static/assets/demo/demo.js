@@ -739,6 +739,7 @@ demo = {
 
   // important !!! draw all charts ******
 
+  
   DrawChart: function(chart_data, chart_labels, chart_id, chart_type) {
 
     gradientChartOptionsConfigurationWithTooltipBlue = {
@@ -1297,10 +1298,11 @@ demo = {
   var myChartData = new Chart(ctx, config);
 
   $("#0").click(function() {
+    var chart_data = chart_data;
     var data = myChartData.config.data;
     chart_data[4] = 200
     data.datasets[0].data = chart_data;
-    data.labels = chart_labels;
+    data.labels = labels;
     myChartData.update();
   });
   $("#1").click(function() {
@@ -1322,6 +1324,98 @@ demo = {
 
 }
 
+// Draw: function(chart_data, chart_labels, chart_id, chart_type, chart_color) {
+//   // Create a new chart configuration object for each chart
+//   var chartConfig = {
+//     maintainAspectRatio: false,
+//     legend: {
+//       display: false
+//     },
+//     tooltips: {
+//       backgroundColor: '#f5f5f5',
+//       titleFontColor: '#333',
+//       bodyFontColor: '#666',
+//       bodySpacing: 4,
+//       xPadding: 12,
+//       mode: "nearest",
+//       intersect: 0,
+//       position: "nearest"
+//     },
+//     responsive: true,
+//     scales: {
+//       yAxes: [{
+//         barPercentage: 1.6,
+//         gridLines: {
+//           drawBorder: false,
+//           color: 'rgba(29,140,248,0.0)',
+//           zeroLineColor: "transparent",
+//         },
+//         ticks: {
+//           suggestedMin: 60,
+//           suggestedMax: 125,
+//           padding: 20,
+//           fontColor: chart_color
+//         }
+//       }],
+//       xAxes: [{
+//         barPercentage: 1.6,
+//         gridLines: {
+//           drawBorder: false,
+//           color: 'rgba(29,140,248,0.1)',
+//           zeroLineColor: "transparent",
+//         },
+//         ticks: {
+//           padding: 20,
+//           fontColor: chart_color
+//         }
+//       }]
+//     }
+//   };
+
+//   // Update the chart configuration based on the chart type
+//   if (chart_type === 'bar') {
+//     chartConfig.scales.yAxes[0].gridLines.color = 'rgba(220,53,69,0.1)';
+//     chartConfig.scales.xAxes[0].gridLines.color = 'rgba(220,53,69,0.1)';
+//   } else if (chart_type === 'line') {
+//     // Update the line chart configuration
+//   }
+
+//   var ctx = document.getElementById(chart_id).getContext("2d");
+
+//   var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+//   gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
+//   gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+//   gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
+
+//   var data = {
+//     labels: chart_labels,
+//     datasets: [{
+//       label: "Data",
+//       fill: true,
+//       backgroundColor: gradientStroke,
+//       borderColor: '#d048b6',
+//       borderWidth: 2,
+//       borderDash: [],
+//       borderDashOffset: 0.0,
+//       pointBackgroundColor: '#d048b6',
+//       pointBorderColor: 'rgba(255,255,255,0)',
+//       pointHoverBackgroundColor: '#d048b6',
+//       pointBorderWidth: 20,
+//       pointHoverRadius: 4,
+//       pointHoverBorderWidth: 15,
+//       pointRadius: 4,
+//       data: chart_data,
+//     }]
+//   };
+
+//   var myChart = new Chart(ctx, {
+//     type: chart_type,
+//     data: data,
+//     options: chartConfig
+//   });
+// }
+
 }
-}
+
 

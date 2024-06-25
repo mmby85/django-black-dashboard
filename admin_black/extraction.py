@@ -20,57 +20,66 @@ def connect(url,db,username,password):
 
 uid,models,common = connect(url,db,username,password)
 
-def extract_invoices(url,db,username,password):
-  uid,models,common = connect(url,db,username,password)
-  factures = models.execute_kw(db, uid, password, 'account.move', 'search_read', [[['state', '=', 'posted']], ['id', 'name', 'date', 'amount_total', 'partner_id', 'invoice_line_ids']])
+def extract_invoices(url, db, username, password):
+    uid, models, common = connect(url, db, username, password)
+    factures = models.execute_kw(
+        db, uid, password, 'account.move', 'search_read', 
+        [[['state', '=', 'posted']], ['id', 'name', 'date', 'amount_total', 'partner_id', 'invoice_line_ids', 'user_id']]
+    )
 
-  invoices_data = []
-  invoice_lines_data = []
-
-  for invoice in factures:
-    # Access invoice line IDs
-    invoice_line_ids = invoice['invoice_line_ids']
-    # Extract details for each invoice line ID
-    for line_id in invoice_line_ids:
-        line_data = models.execute_kw(db, uid, password, 'account.move.line', 'search_read', [[['id', '=', line_id]], ['name', 'price_unit', 'quantity', 'product_id', 'account_id']])
-        # Append line data to a list
-        invoice_lines_data.append(line_data[0])
-    invoice_data = {
-        'id_invoice': invoice['id'],
-        'name': invoice['name'],
-        'date': invoice['date'],
-        'amount_total': invoice['amount_total'],
-        'partner_id': invoice['partner_id'],
-        'invoice_line_ids': invoice_lines_data,
-    }
-    invoices_data.append(invoice_data)
+    invoices_data = []
     invoice_lines_data = []
 
-  # Convert invoice data list to pandas DataFrames
-  invoices_df = pd.DataFrame(invoices_data)
-  # data processing :
-  def convert_partner_id(x: pd.Series) -> pd.Series:
-    partner_id = str(x['partner_id'])
+    for invoice in factures:
+        # Access invoice line IDs
+        invoice_line_ids = invoice['invoice_line_ids']
+        # Extract details for each invoice line ID
+        for line_id in invoice_line_ids:
+            line_data = models.execute_kw(
+                db, uid, password, 'account.move.line', 'search_read', 
+                [[['id', '=', line_id]], ['name', 'price_unit', 'quantity', 'product_id', 'account_id']]
+            )
+            # Append line data to a list
+            invoice_lines_data.append(line_data[0])
+        
+        # Extract user_id information
+        user_id = invoice['user_id'][0] if invoice['user_id'] else None
+        user_name = invoice['user_id'][1] if invoice['user_id'] else 'MISSING_USER'
 
-    if partner_id[0] == ('[') and partner_id[-1] == (']') :
-      partner_id = partner_id[1:-1]
-    elif partner_id == ('(') and partner_id == (')'):
-      partner_id = partner_id[1:-1]
+        invoice_data = {
+            'id_invoice': invoice['id'],
+            'name': invoice['name'],
+            'date': invoice['date'],
+            'amount_total': invoice['amount_total'],
+            'partner_id': invoice['partner_id'],
+            'invoice_line_ids': invoice_lines_data,
+            'employee_id': user_id,
+            'employee_name': user_name,
+        }
+        invoices_data.append(invoice_data)
+        invoice_lines_data = []
 
-    partner_id = partner_id.split(',')
-    return partner_id
+    # Convert invoice data list to pandas DataFrame
+    invoices_df = pd.DataFrame(invoices_data)
 
-  invoices_df['partner_id'] = invoices_df.apply(convert_partner_id, axis=1)
+    # Data processing:
+    def convert_partner_id(x: pd.Series) -> pd.Series:
+        partner_id = str(x['partner_id'])
+        if partner_id[0] == '[' and partner_id[-1] == ']':
+            partner_id = partner_id[1:-1]
+        elif partner_id == '(' and partner_id[-1] == ')':
+            partner_id = partner_id[1:-1]
+        partner_id = partner_id.split(',')
+        return partner_id
 
-  # invoices_df['partner_name'] = invoices_df['partner_id'].apply(lambda x: x[0])
-  invoices_df['partner_name'] = invoices_df['partner_id'].apply(lambda x: x[1] if x[0]!='False' else None)
-  invoices_df['partner_id'] = invoices_df['partner_id'].apply(lambda x: x[0] if x[0]!='False' else None)
-  invoices_df['date'] = pd.to_datetime(invoices_df['date'], format='%Y-%m-%d')
-  invoices_df['partner_name'] = invoices_df['partner_name'].fillna('MISSING_NAME')
-  invoices_df['partner_id'] = invoices_df['partner_id'].replace(np.nan, '00', regex=True)
+    invoices_df['partner_id'] = invoices_df.apply(convert_partner_id, axis=1)
+    invoices_df['partner_name'] = invoices_df['partner_id'].apply(lambda x: x[1] if x[0] != 'False' else None)
+    invoices_df['partner_id'] = invoices_df['partner_id'].apply(lambda x: x[0] if x[0] != 'False' else None)
+    invoices_df['date'] = pd.to_datetime(invoices_df['date'], format='%Y-%m-%d')
+    invoices_df['partner_name'] = invoices_df['partner_name'].fillna('MISSING_NAME')
+    invoices_df['partner_id'] = invoices_df['partner_id'].replace(np.nan, '00', regex=True)
 
-  return invoices_df
-
+    return invoices_df
 invoices_df = extract_invoices(url,db,username,password)
 
 
@@ -149,23 +158,23 @@ def extract_products(db, username, password, url):
 
 products_df = extract_products(db, username, password, url)
 def extract_employee_data(url, db, username, password):
-    # Connect to the Odoo server
-    common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
-    models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
-
-    # Authenticate with the database
-    uid = common.authenticate(db, username, password, {})
-
-    # Get the employee records
-    employee_ids = models.execute_kw(db, uid, password, 'hr.employee', 'search',[[]])
-
-    # Extract the employee data
-    employee_data = []
-    for employee_id in employee_ids:
-        employee_record = models.execute_kw(db, uid, password,'hr.employee', 'read',[employee_id],{'fields': ['name', 'work_email', 'job_id', 'job_title', 'department_id' ]})
-        employee_data.append(employee_record)
-    employee_data = pd.DataFrame(employee_data)
-    return employee_data
+    uid,models,common = connect(url,db,username,password)
+    model = 'hr.employee'
+    fields = ['id', 'name', 'work_email', 'job_id', 'job_title', 'department_id']
+    employees = models.execute_kw(
+        db, uid, password,
+        model, 'search_read',
+        [[]],  
+        {'fields': fields}
+    )
+    processed_data = []
+    for employee in employees:
+        employee['job_id'] = employee['job_id'][0]
+        employee['department_id'], employee['department_name'] = employee['department_id']
+        processed_data.append(employee)   
+    df = pd.DataFrame(processed_data)
+    
+    return df
 employee_data = extract_employee_data(url, db, username, password)
 def extract_CRM_data(url, dbname, username, password):
     common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
@@ -199,6 +208,9 @@ def extract_CRM_data(url, dbname, username, password):
 
 CRM_tag, CRM_Stage, CRM_Team, CRM_lead = extract_CRM_data(url, db, username, password)
 
+
+
+
 with pd.ExcelWriter('data.xlsx') as writer:
     invoices_df.to_excel(writer, sheet_name='invoices_df')
     product_details_df.to_excel(writer, sheet_name='product_details_df')
@@ -209,3 +221,57 @@ with pd.ExcelWriter('data.xlsx') as writer:
     CRM_Team.to_excel(writer, sheet_name='CRM_Team')
     CRM_lead.to_excel(writer, sheet_name='CRM_lead')
     employee_data.to_excel(writer, sheet_name='employee_data')
+
+def extract_types_orders():
+    common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+    uid = common.authenticate(db, username, password, {})
+    models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+    quotes_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('state', '=', 'draft')]})
+
+    # all sent devis
+    quotes_id = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('state', '=', 'ent')]})
+
+    #  all sale orders
+    sale_orders_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('state', '=', 'ale')]})
+
+    #  all done sale orders
+    done_sale_orders_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('state', '=', 'done')]})
+
+    #  all cancelled sale orders
+    cancelled_sale_orders_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('state', '=', 'cancel')]})
+
+    #  all sale orders with an invoice
+    invoiced_sale_orders_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('invoice_status', '=', 'invoiced')]})
+
+
+    #  all sale orders that need to be invoiced
+    to_invoice_sale_orders_ids = models.execute_kw(db, uid, password, 'sale.order', 'search_read', [],
+      {'fields': ['name', 'date_order', 'partner_id', 'amount_total'], 'domain': [('invoice_status', '=', 'to invoice')]})
+    quotes_ids = pd.DataFrame(quotes_ids)
+    quotes_id = pd.DataFrame(quotes_id)
+    sale_orders_ids = pd.DataFrame(sale_orders_ids)
+    done_sale_orders_ids= pd.DataFrame(done_sale_orders_ids)
+    cancelled_sale_orders_ids = pd.DataFrame(cancelled_sale_orders_ids)
+    invoiced_sale_orders_ids= pd.DataFrame(invoiced_sale_orders_ids)
+    to_invoice_sale_orders_ids= pd.DataFrame(to_invoice_sale_orders_ids)
+    return quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids
+quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids=extract_types_orders()
+
+quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids=extract_types_orders()
+
+with pd.ExcelWriter('orders.xlsx') as writer:
+    quotes_ids.to_excel(writer, sheet_name='quotes_ids')
+    quotes_id.to_excel(writer, sheet_name='quotes_id')
+    sale_orders_ids.to_excel(writer, sheet_name='sale_orders_ids')
+    done_sale_orders_ids.to_excel(writer, sheet_name='done_sale_orders_ids')
+    cancelled_sale_orders_ids.to_excel(writer, sheet_name='cancelled_sale_orders_ids')
+    invoiced_sale_orders_ids.to_excel(writer, sheet_name='invoiced_sale_orders_ids')
+    to_invoice_sale_orders_ids.to_excel(writer, sheet_name='to_invoice_sale_orders_ids')
+

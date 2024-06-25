@@ -1,7 +1,7 @@
 import os 
 import pandas as pd
 import numpy as np
-from .importing import invoices_df , product_details_df ,joined_df, products_df
+from .importing import *
 
 
 # ---- a revoir et ne pas toucher pour le moment : 
@@ -94,4 +94,25 @@ def Revenu_par_produit(product_details_df):
     product_revenue = product_details_df.groupby('product_name').agg(total_revenue=('price_unit', lambda x: sum(x * product_details_df.loc[x.index, 'quantity']))).reset_index()
     product_revenue = product_revenue.sort_values(by='total_revenue', ascending=False)
     return product_revenue
+
+# Operations statut : 
+def CRM_statut(CRM_Stage):
+  grouped_df = CRM_Stage.groupby('name')['team_count'].sum()
+  return grouped_df
+
+# Vente par employé :
+def sales_per_employee(invoices_df):
+    performance_df = invoices_df.groupby('employee_name')['amount_total'].sum().reset_index()
+    performance_df = performance_df.rename(columns={'amount_total': 'total_sales'})
+    performance_df = performance_df.sort_values(by='total_sales', ascending=False).reset_index(drop=True)
+    return performance_df
+
+#------------------------------------------------------------------------------
+#-------------------KPIs Page FACTURES-----------------------------------------
+
+
+def nombre_factures(group_by):
+    freq_map = {"month": "M", "quarter": "Q", "year": "A"}
+    grouped_df = invoices_df.groupby(pd.Grouper(key="date", freq=freq_map[group_by])).size().reset_index(name="number_of_invoices")
+    return grouped_df
 

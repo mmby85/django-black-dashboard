@@ -47,9 +47,6 @@ def user_logout_view(request):
 
 # Pages -- Dashboard
 def dashboard(request):
-    xx = revenu_produit.product_name.to_list()[:2]
-    xx[0] = xx[0][:10]
-    xx[1] = xx[1][:10]
     context = {
     'parent': 'pages',
     'segment': 'dashboard',
@@ -74,8 +71,10 @@ def dashboard(request):
     "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , 
                         "labels" :  CA_par_produit.index.to_list(),  "id" : "CA_par_produit" , "type" : "bar" }, 
     "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
+    "crm_statut" : {"data" : CRM_statut.values.tolist() , "labels" : CRM_statut.index.tolist(), "id" : "crm_statut" , "type" : "pie"},
+    "ca_par_employee" : {"data" :CA_par_employee.total_sales.tolist()  , "labels" : CA_par_employee.employee_name.tolist(), "id" : "ca_par_employee" , "type" : "bar"},
   }
-    print(context)
+
     return render(request, 'pages/dashboard.html', context)
 
 def main(request):
@@ -90,6 +89,37 @@ def factures(request):
     context = {
     'parent': 'pages',
     'segment': 'factures',
+    'alldevis': alldevis,
+    'sent_devis': sent_devis,
+    'sale_orders': sale_orders,
+    'done_saleorders': done_saleorders,
+    'cancelled_sale_orders': cancelled_sale_orders,
+    'sale_orders_with_invoice': sale_orders_with_invoice,
+    'sale_orders_to_invoiced': sale_orders_to_invoiced,
+
+    'facturess' : facturess[:4],
+    'labels' : [ name['name'] for name in facturess[:5] ],
+    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
+    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
+    "chiffreaffaire" : chiffreaffaire.round(4),
+    "nombreClient" : nombreClient ,
+    "nombreFactures": nombreFactures,
+
+    "ca_mois" : {"data" : CA_mois.tolist() , "labels" : CA_mois.index.to_list(), "id" : "ca_mois" , "type" : "line"},
+    "ca_year" : {"data" : CA_year.tolist() , "labels" : CA_year.index.to_list()},
+    "ca_quarter" : {"data" : CA_quarter.tolist() , "labels" : CA_quarter.index.to_list()},
+     
+    "facture_mois" : {"data" : facture_par_mois.number_of_invoices.tolist() , "labels" : facture_par_mois.date.tolist(), "id" : "nb_factures" , "type" : "bar"},
+    "facture_annee" : {"data" : facture_par_annee.number_of_invoices.tolist() , "labels" : facture_par_annee.date.tolist()},
+    "facture_semestre" : {"data" : facture_par_semestre.number_of_invoices.tolist() , "labels" : facture_par_semestre.date.tolist()},
+
+    "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "employee_sales" , "type" : "bar" },
+    "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , 
+                        "labels" :  CA_par_produit.index.to_list(),  "id" : "CA_par_produit" , "type" : "bar" }, 
+    "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
+    "crm_statut" : {"data" : CRM_statut.values.tolist() , "labels" : CRM_statut.index.tolist(), "id" : "crm_statut" , "type" : "pie"},
+    "ca_par_employee" : {"data" :CA_par_employee.total_sales.tolist()  , "labels" : CA_par_employee.employee_name.tolist(), "id" : "ca_par_employee" , "type" : "bar"},
+
     }
     return render(request, 'pages/factures.html', context)
 
