@@ -2,7 +2,7 @@ from .KPIs import *
 from .importing import *
 
 facturess = factures(invoices_df)
-CAPMOIS = total_sales_by_period(invoices_df, "month")
+#CAPMOIS = total_sales_by_period(invoices_df, "month")
 
 
 chiffreaffaire = Chiffreaffaire(invoices_df)

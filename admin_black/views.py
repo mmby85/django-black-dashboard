@@ -57,8 +57,8 @@ def dashboard(request):
     { "Name" : "Dakota Rice", "Country" : "Tunisia","City" : "Oud-Turnhout","SALARY": "36,738" } , 
     { "Name" : "Dakota Rice", "Country" : "France","City" : "Oud-Turnhout","SALARY": "36,738" }],
     'labels' : [ name['name'] for name in facturess[:5] ],
-    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
-    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
+    # "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
+    # "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
     "chiffreaffaire" : chiffreaffaire.round(4) ,
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
@@ -91,8 +91,8 @@ def factures(request):
     'segment': 'factures',
     'facturess' : facturess[:4],
     'labels' : [ name['name'] for name in facturess[:5] ],
-    "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
-    "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
+    # "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
+    # "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
     "chiffreaffaire" : chiffreaffaire.round(4),
     "nombreClient" : nombreClient ,
     "nombreFactures": nombreFactures,
@@ -120,7 +120,7 @@ def factures(request):
     "ca_client" : {"data" : CA_client.total_revenue.tolist() , "labels" : CA_client.index.to_list(), "id" : "ca_client" , "type" : "bar"},
     "client_saless" : {"data" : client_sales.sales.tolist() , "labels" : client_sales.date.to_list(), "id" : "client_saless" , "type" : "bar"},
     "NB_fac_par_client" : {"data" : nb_fac_par_client.values.tolist() , "labels" : client_sales.index.to_list(), "id" : "NB_fac_par_client" , "type" : "bar"},
-    "TOP_revenue_par_client" : {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
+    #"TOP_revenue_par_client" : {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
     "MOINS_revenue_par_client" : {"data" : moins_revenue_par_client.values.tolist() , "labels" : moins_revenue_par_client.index.to_list(), "id" : "MOINS_revenue_par_client" , "type" : "bar"},
     "retention_MOIS" : {"data" : retention_mois.values.tolist() , "labels" : retention_mois.index.to_list(), "id" : "retention_MOIS" , "type" : "line"},
     "retention_ANNEE" : {"data" : retention_annee.values.tolist() , "labels" : retention_annee.index.to_list()},
@@ -131,7 +131,9 @@ def factures(request):
     "ca_par_produit1" : {"data" : CA_par_produit1.total_quantity.to_list() , 
                         "labels" :  CA_par_produit1.index.to_list(),  "id" : "CA_par_produit1" , "type" : "bar" }, 
     "revenu_produit1" : {"data" : revenu_produit1.total_revenue.tolist() , "labels" : revenu_produit1.product_name.to_list(), "id" : "revenu_produit1" , "type" : "pie" },
-
+    "to_draw" : [
+      {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
+    ]
     }
     return render(request, 'pages/factures.html', context)
 

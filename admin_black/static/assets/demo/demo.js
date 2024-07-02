@@ -1322,6 +1322,47 @@ demo = {
   });
 
 
+},
+DrawChart: function(chart_data, chart_labels, chart_id, chart_type) {
+
+
+
+  var ctx = document.getElementById(chart_id).getContext("2d");
+
+  var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+
+  gradientStroke.addColorStop(1, 'rgba(72,72,176,0.2)');
+  gradientStroke.addColorStop(0.2, 'rgba(72,72,176,0.0)');
+  gradientStroke.addColorStop(0, 'rgba(119,52,169,0)'); //purple colors
+
+  var data = {
+    labels: chart_labels,
+    datasets: [{
+      label: "Data",
+      fill: true,
+      backgroundColor: gradientStroke,
+      borderColor: '#d048b6',
+      borderWidth: 2,
+      borderDash: [],
+      borderDashOffset: 0.0,
+      pointBackgroundColor: '#d048b6',
+      pointBorderColor: 'rgba(255,255,255,0)',
+      pointHoverBackgroundColor: '#d048b6',
+      pointBorderWidth: 20,
+      pointHoverRadius: 4,
+      pointHoverBorderWidth: 15,
+      pointRadius: 4,
+      data: chart_data,
+    }]
+  };
+
+  var myChart = new Chart(ctx, {
+    type: chart_type,
+    data: data,
+    options: gradientBarChartConfiguration
+  });
+
+
 }
 
 // Draw: function(chart_data, chart_labels, chart_id, chart_type, chart_color) {

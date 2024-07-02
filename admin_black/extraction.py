@@ -262,8 +262,8 @@ def extract_types_orders():
     invoiced_sale_orders_ids= pd.DataFrame(invoiced_sale_orders_ids)
     to_invoice_sale_orders_ids= pd.DataFrame(to_invoice_sale_orders_ids)
     return quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids
-quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids=extract_types_orders()
 
+quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids=extract_types_orders()
 quotes_ids,quotes_id,sale_orders_ids,done_sale_orders_ids,cancelled_sale_orders_ids,invoiced_sale_orders_ids,to_invoice_sale_orders_ids=extract_types_orders()
 
 with pd.ExcelWriter('orders.xlsx') as writer:
