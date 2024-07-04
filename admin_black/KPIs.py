@@ -83,16 +83,16 @@ def ventes_par_client(invoices_df):
   return employee_sales
 
 # CA par produit : 
-def top_products_sold(product_details_df):
-    product_sales = product_details_df.groupby('product_name').agg(total_quantity=('quantity', 'sum'))
+def top_products_sold(products):
+    product_sales = products.groupby('product_name').agg(total_quantity=('quantity', 'sum'))
     top_selling_products = product_sales.sort_values(by='total_quantity', ascending=False)
     top_selling_products =top_selling_products
     return top_selling_products
 
 # revenu par produit
-def Revenu_par_produit(product_details_df):
-    product_details_df['price_unit'] = product_details_df['price_unit'].astype(float)
-    product_revenue = product_details_df.groupby('product_name').agg(total_revenue=('price_unit', lambda x: sum(x * product_details_df.loc[x.index, 'quantity']))).reset_index()
+def Revenu_par_produit(products):
+    products['price_unit'] = products['price_unit'].astype(float)
+    product_revenue = products.groupby('product_name').agg(total_revenue=('price_unit', lambda x: sum(x * product_details_df.loc[x.index, 'quantity']))).reset_index()
     product_revenue = product_revenue.sort_values(by='total_revenue', ascending=False)
     return product_revenue
 
@@ -112,11 +112,40 @@ def sales_per_employee(invoices_df):
 #-------------------KPIs Page FACTURES-----------------------------------------
 
 # nombre de factures par mois , annee , semestre :
-def nombre_factures(group_by):
-    freq_map = {"month": "M", "quarter": "Q", "year": "A"}
-    grouped_df = invoices_df.groupby(pd.Grouper(key="date", freq=freq_map[group_by])).size().reset_index(name="number_of_invoices")
-    return grouped_df
 
+def nombre_factures(period):
+    invoices_df['date'] = pd.to_datetime(invoices_df['date'])
+    
+    if period == 'year':
+        invoices_df['period'] = invoices_df['date'].dt.year
+        all_periods = pd.Series(range(invoices_df['period'].min(), invoices_df['period'].max() + 1))
+        freq = 'A'
+        
+    elif period == 'quarter':
+        invoices_df['period'] = invoices_df['date'].dt.to_period('Q')
+        all_periods = pd.period_range(invoices_df['period'].min(), invoices_df['period'].max(), freq='Q')
+        freq = 'Q'
+        
+    elif period == 'month':
+        invoices_df['period'] = invoices_df['date'].dt.to_period('M')
+        all_periods = pd.period_range(invoices_df['period'].min(), invoices_df['period'].max(), freq='M') 
+        all_periods = all_periods.strftime('%b%Y')
+        freq = 'M'
+    
+    grouped_df = invoices_df.groupby(pd.Grouper(key="date", freq=freq)).size().reset_index(name="number_of_invoices")
+    grouped_df['date'] = [d.strftime('%Y-%m-%d') for d in grouped_df.date.tolist()] 
+    
+    # Drop the 'date' column
+    grouped_df.drop('date', axis=1, inplace=True)
+    
+    # Set all_periods as index
+    grouped_df.index = all_periods
+    
+    # Format the index
+    formatted_index = [str(period) for period in grouped_df.index.tolist()]
+    grouped_df.index = formatted_index
+    
+    return grouped_df
 # CA par client :
 def ventes_par_clients(invoices_df):
   employee_sales = invoices_df.groupby('partner_name').agg(total_revenue=('amount_total', 'sum')).reset_index()
@@ -158,7 +187,7 @@ def calculate_client_retention_rate(invoices_df, period):
     period_partner_counts = invoices_df.groupby('period')['partner_id'].nunique()
     repeat_clients = invoices_df.groupby('period')['partner_id'].apply(lambda x: x.duplicated().sum())
     retention_rate = (repeat_clients / period_partner_counts).mean() * 100
-    return retention_rate
+    return round(retention_rate, 2)
 
 
 # retention rate over time:
@@ -181,19 +210,30 @@ def retention_rate_over_time(invoices_df, period):
     else:
         raise ValueError("Invalid period. Choose from 'year', 'quarter', or 'month' ")
 
-    
-    # Group by period and partner_id, and count the number of unique partner_ids
     period_partner_counts = invoices_df.groupby('period')['partner_id'].nunique()
-
-    # Calculate the number of repeat clients in each period
     repeat_clients = invoices_df.groupby('period')['partner_id'].apply(lambda x: x.duplicated().sum())
-
-    # Calculate the Client Retention Rate for each period
     retention_rate_series = (repeat_clients / period_partner_counts) * 100
-
-    # Fill missing periods with 0 retention rate
     retention_rate_series = retention_rate_series.reindex(all_periods, fill_value=0)
+    formatted_index = [str(period) for period in retention_rate_series.index.tolist()]
+    retention_rate_series.index = formatted_index
 
     return retention_rate_series
 
 
+#----------------------------------------------------------------------------------------------
+#-----------------------------------Page formation---------------------------
+# commande de joiture : ( à deplacer latter )
+products = pd.merge(joined_df, products_df, left_on='product_id', right_on='id_product', how='left')
+products.drop(columns=['id_product','name','quantity_sold', 'Unnamed: 0_x','uom_id', 'Unnamed: 0_y'], inplace=True)
+
+#Total Revenue par Product ( in data_processing )
+# les produits avec la plus Marge brute : 
+def top_marge_brute_produits(product):
+    product['gross_margin'] = product['amount_total'] - (product['standard_price'] * product['quantity'])
+    gross_margin_by_product = product.groupby('product_name')['gross_margin'].sum().sort_values(ascending=False).head(10)
+    return gross_margin_by_product
+# les produits avec la moins Marge brute : 
+def moins_marge_brute_produits(product):
+    product['gross_margin'] = product['amount_total'] - (product['standard_price'] * product['quantity'])
+    gross = product.groupby('product_name')['gross_margin'].sum().sort_values(ascending=True).head(10)
+    return gross

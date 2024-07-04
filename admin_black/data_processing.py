@@ -60,5 +60,15 @@ rt_annee = calculate_client_retention_rate(invoices_df, period ='year')
 
 
 #-------------------KPIs Page PRODUCTS (formations ) -----------------------------------------
-CA_par_produit1 = top_products_sold(product_details_df)
-revenu_produit1 = Revenu_par_produit(product_details_df)
+CA_par_produit1 = top_products_sold(products)
+revenu_produit1 = Revenu_par_produit(products)
+
+#Revenue par categories de produits :
+revenue_by_product_category = products.groupby('categ_id')['amount_total'].sum()
+
+# Quantité vendus par Product Category
+total_quantity_sold_by_product_category = products.groupby('categ_id')['quantity'].sum()
+
+#  Top et moins produits avec le plus grand gain
+plus_marge_brute = top_marge_brute_produits(products)
+moins_marge_brute = moins_marge_brute_produits(products)

@@ -96,8 +96,7 @@
                       <div class="card-header ">
                           <div class="row">
                               <div class="col-sm-6 text-left">
-                                  <h2 class="card-title">Chiffre d'Affaire</h2>
-                                  <h5 class="card-category">2024</h5>
+                                  <h2 class="card-title">Nombre de factures : </h2>
                               </div>
                               <div class="col-sm-6">
                                   <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
@@ -128,7 +127,7 @@
                       </div>
                       <div class="card-body">
                           <div class="chart-area">
-                              <canvas id="ca_mois"></canvas>
+                              <canvas id="nb_factures"></canvas>
                           </div>
                       </div>
       
@@ -136,55 +135,171 @@
               </div>
           </div>
           <div class="row">
-              <div class="col-lg-4">
-                  <div class="card card-chart">
-                      <div class="card-header">
-                          <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i>Opérations :</h3>
-                      </div>
-                      <div class="card-body">
-                          <div class="chart-area">
-                              <canvas id="crm_statut"></canvas>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-4">
-                  <div class="card card-chart">
-                      <div class="card-header">
-                          <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i> chiffre d'affaire par produits : </h3>
-                      </div>
-                      <div class="card-body">
-                          <div class="chart-area">
-                              <canvas id="CA_par_produit"></canvas>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-              <div class="col-lg-4">
-                  <div class="card card-chart">
-                      <div class="card-header">
-                          <h3 class="card-title"><i class="tim-icons icon-send text-success"></i> HR performance</h3>
-                      </div>
-                      <div class="card-body">
-                          <div class="chart-area">
-                              <canvas id="ca_par_employee"></canvas>
-                          </div>
-                      </div>
-                  </div>
-              </div>
-          </div>
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-6 text-left">
+                                <h2 class="card-title">Vente par client: </h2>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="ca_client"></canvas>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-6 text-left">
+                                <h2 class="card-title">Nombre de transaction par client :</h2>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="NB_fac_par_client"></canvas>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i>Top 10 Clients générant le plus revenue:</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="TOP_revenue_par_client"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h3 class="card-title"><i class="tim-icons icon-delivery-fast text-info"></i>Top 10 Clients générant le moins revenue:</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="MOIN_revenue_par_client"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                        <h3 class="card-title">Taux de fidélisation globale des clients   : </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>      
+        <div class="row">
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="">
+                        <h3 class="card-title">{{rt_mois}} % </h3>
+                        <span>Fidélisation globale par mois</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                <div class="card-body">
+                    <div class="">
+                    <h3 class="card-title">{{rt_semestre}} %</h3>
+                    <span>Fidélisation globale par semestre</span>
+                    </div>
+                </div>
+                </div>
       
+            </div>
       
+            <div class="col-4">
+                <div class="card">
+                <div class="card-body">
+                    <div class="">
+                        <h3 class="card-title">{{rt_annee }} %</h3>
+                        <span>Fidélisation globale par année</span>
+                        </div>
+                </div>
+                </div>
+      
+            </div>
+          </div>  
+          <div class="row">
+            <div class="col-12">
+                <div class="card card-chart">
+                    <div class="card-header ">
+                        <div class="row">
+                            <div class="col-sm-6 text-left">
+                                <h2 class="card-title">Evolution du Taux de fidélisation des clients : </h2>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="btn-group btn-group-toggle float-right" data-toggle="buttons">
+                                    <label class="btn btn-sm btn-primary btn-simple active" id="0">
+                                        <input type="radio" name="options" checked>
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Par mois</span>
+                                        <span class="d-block d-sm-none">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </span>
+                                    </label>
+                                    <label class="btn btn-sm btn-primary btn-simple" id="1">
+                                        <input type="radio" class="d-none d-sm-none" name="options">
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Par semestre</span>
+                                        <span class="d-block d-sm-none">
+                                            <i class="tim-icons icon-gift-2"></i>
+                                        </span>
+                                    </label>
+                                    <label class="btn btn-sm btn-primary btn-simple" id="2">
+                                        <input type="radio" class="d-none" name="options">
+                                        <span class="d-none d-sm-block d-md-block d-lg-block d-xl-block">Par année</span>
+                                        <span class="d-block d-sm-none">
+                                            <i class="tim-icons icon-tap-02"></i>
+                                        </span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="retention_MOIS"></canvas>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>    
           <div class="row">
               <div class="col-lg-4">
                   <div class="card card-chart">
                       <div class="card-header">
-                          <h5 class="card-category">Vente total par client***</h5>
+                          <h5 class="card-category">NEW ONE </h5>
                           <h3 class="card-title"><i class="tim-icons icon-bell-55 text-primary"></i> 763,215</h3>
                       </div>
                       <div class="card-body">
                           <div class="chart-area">
-                              <canvas id="employee_sales"></canvas>
+                              <canvas id="CA_par_produit"></canvas>
                           </div>
                       </div>
                   </div>
@@ -210,7 +325,7 @@
                       </div>
                       <div class="card-body">
                           <div class="chart-area">
-                              <canvas id="revenu_produit"></canvas>
+                              <canvas id="qsx"></canvas>
                           </div>
                       </div>
                   </div>
@@ -383,4 +498,6 @@
               </div>
               {% include 'includes/contactTable.html' %}    </div>
       </div>
+      {% include 'includes/scriptsfacture.html' %}
       {% endblock content %}
+

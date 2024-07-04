@@ -1,0 +1,65 @@
+{% load static %}
+<!--   Core JS Files   -->
+<script src="{% static 'assets/js/core/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+<!--  Google Maps Plugin    -->
+<!-- Place this tag in your head or just before your close body tag. -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
+<!-- Chart JS -->
+<script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+<!--  Notifications Plugin    -->
+<script src="{% static 'assets/js/plugins/bootstrap-notify.js' %}"></script>
+<!-- Control Center for Black Dashboard: parallax effects, scripts for the example pages etc -->
+<script src="{% static 'assets/js/black-dashboard.min.js' %}?v=1.0.0"></script>
+<!-- Black Dashboard DEMO methods, don't include it in your project! -->
+<script src="{% static 'assets/demo/demo.js' %}"></script>
+<script src="{% static 'assets/js/themeSettings.js' %}"></script>
+
+<script>
+    console.log({{employee_sales.data|safe}}, {{employee_sales.labels|safe}}, 
+    '{{employee_sales.id}}','{{employee_sales.type}}')
+    $(document).ready(function () {
+        // Javascript method's body can be found in assets/js/demos.js
+        var month_names = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        var chart_data = [80, 120, 105, 110, 95, 105, 90, 100, 80, 95, 70, 120];
+
+        demo.drawX({{ca_mois.data|safe}}, month_names ,'{{ca_mois.id}}','{{ca_mois.type}}' , {{ca_quarter.data|safe}},  
+        {{ca_year.data|safe}} ,{{ca_quarter.labels|safe}},  {{ca_year.labels|safe}});
+
+        demo.DrawChart( {{crm_statut.data|safe}}, {{crm_statut.labels|safe}}, 
+        '{{crm_statut.id}}','{{crm_statut.type}}');
+        demo.DrawChart( {{ca_par_employee.data|safe}}, {{ca_par_employee.labels|safe}}, 
+        '{{ca_par_employee.id}}','{{ca_par_employee.type}}');
+        //demo.DrawChart( {{employee_sales.data|safe}}, {{employee_sales.labels|safe}}, 
+        //'{{employee_sales.id}}','{{employee_sales.type}}');
+        //demo.DrawChart( {{revenu_produit.data|safe}}, {{revenu_produit.labels|safe}}, 
+        //'{{revenu_produit.id}}','{{revenu_produit.type}}');  
+
+        demo.DrawChart( {{ca_par_produit.data|safe}}, {{ca_par_produit.labels|safe}}, 
+        '{{ca_par_produit.id}}','{{ca_par_produit.type}}');  
+        // demo.DrawChart( {{client.data|safe}}, {{client.labels|safe}}, 
+        //  '{{client.id}}','{{client.type}}');
+
+        // demo.DrawChart( {{facture_mois.data|safe}}, {{facture_mois.labels|safe}}, 
+        // '{{facture_mois.id}}','{{facture_mois.type}}');
+
+        demo.DrawChart({{MOINS_revenue_par_client.data|safe}},{{MOINS_revenue_par_client.labels|safe}},'{{MOINS_revenue_par_client.id}}','{{MOINS_revenue_par_client.type}}');
+      
+        demo.DrawChart({{NB_fac_par_client.data|safe}},{{NB_fac_par_client.labels|safe}},'{{NB_fac_par_client.id}}','{{NB_fac_par_client.type}}');
+
+    });
+</script>
+
+
+<script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+<script>
+    window.TrackJS &&
+        TrackJS.install({
+            token: "ee6fab19c5a04ac1a32a645abde4613a",
+            application: "black-dashboard-free"
+        });
+
+
+</script>

@@ -114,26 +114,21 @@ def factures(request):
     'sale_orders_with_invoice': sale_orders_with_invoice,
     'sale_orders_to_invoiced': sale_orders_to_invoiced,
 
-    "facture_mois" : {"data" : facture_par_mois.number_of_invoices.tolist() , "labels" : facture_par_mois.date.tolist(), "id" : "nb_factures" , "type" : "bar"},
-    "facture_annee" : {"data" : facture_par_annee.number_of_invoices.tolist() , "labels" : facture_par_annee.date.tolist()},
-    "facture_semestre" : {"data" : facture_par_semestre.number_of_invoices.tolist() , "labels" : facture_par_semestre.date.tolist()},
+    "facture_mois" : {"data" : facture_par_mois.values.tolist() , "labels" : facture_par_mois.index.tolist(), "id" : "nb_factures" , "type" : "line"},
+    "facture_annee" : {"data" : facture_par_annee.values.tolist() , "labels" : facture_par_annee.index.tolist()},
+    "facture_semestre" : {"data" : facture_par_semestre.values.tolist() , "labels" : facture_par_semestre.index.tolist()},
     "ca_client" : {"data" : CA_client.total_revenue.tolist() , "labels" : CA_client.index.to_list(), "id" : "ca_client" , "type" : "bar"},
     "client_saless" : {"data" : client_sales.sales.tolist() , "labels" : client_sales.date.to_list(), "id" : "client_saless" , "type" : "bar"},
     "NB_fac_par_client" : {"data" : nb_fac_par_client.values.tolist() , "labels" : client_sales.index.to_list(), "id" : "NB_fac_par_client" , "type" : "bar"},
-    #"TOP_revenue_par_client" : {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
-    "MOINS_revenue_par_client" : {"data" : moins_revenue_par_client.values.tolist() , "labels" : moins_revenue_par_client.index.to_list(), "id" : "MOINS_revenue_par_client" , "type" : "bar"},
+    "TOP_revenue_par_client" : {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
+    "MOINS_revenue_par_client" : {"data" : moins_revenue_par_client.values.tolist() , "labels" : moins_revenue_par_client.index.to_list(), "id" : "MOIN_revenue_par_client" , "type" : "bar"},
     "retention_MOIS" : {"data" : retention_mois.values.tolist() , "labels" : retention_mois.index.to_list(), "id" : "retention_MOIS" , "type" : "line"},
     "retention_ANNEE" : {"data" : retention_annee.values.tolist() , "labels" : retention_annee.index.to_list()},
     "retention_SEMESTRE" : {"data" : retention_semstre.values.tolist() , "labels" : retention_semstre.index.to_list()},
     'rt_mois': rt_mois,
     'rt_semestre': rt_semestre,
-    'alldevis': rt_annee,    
-    "ca_par_produit1" : {"data" : CA_par_produit1.total_quantity.to_list() , 
-                        "labels" :  CA_par_produit1.index.to_list(),  "id" : "CA_par_produit1" , "type" : "bar" }, 
-    "revenu_produit1" : {"data" : revenu_produit1.total_revenue.tolist() , "labels" : revenu_produit1.product_name.to_list(), "id" : "revenu_produit1" , "type" : "pie" },
-    "to_draw" : [
-      {"data" : top_revenue_par_client.values.tolist() , "labels" : top_revenue_par_client.index.to_list(), "id" : "TOP_revenue_par_client" , "type" : "bar"},
-    ]
+    'rt_annee': rt_annee,    
+
     }
     return render(request, 'pages/factures.html', context)
 
@@ -162,12 +157,38 @@ def user_profile(request):
     return render(request, 'pages/user.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
-def clients(request):
+def formations(request):
     context = {
     'parent': 'pages',
-    'segment': 'clients'
+    'segment': 'formations',
+    'facturess' : facturess[:4],
+    'labels' : [ name['name'] for name in facturess[:5] ],
+    # "chiffre_affaire" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "chiffreAffaire" , "type" : "pie" },
+    # "client" : {"data" : CAPMOIS.tolist() , "labels" : CAPMOIS.index.tolist(), "id" : "clientNber" , "type" : "pie" },
+    "chiffreaffaire" : chiffreaffaire.round(4),
+    "nombreClient" : nombreClient ,
+    "nombreFactures": nombreFactures,
+    "employee_sales" : {"data" : employee_sales.total_revenue.tolist() , "labels" : employee_sales.index.to_list(), "id" : "employee_sales" , "type" : "bar" },
+    "ca_par_produit" : {"data" : CA_par_produit.total_quantity.to_list() , 
+                        "labels" :  CA_par_produit.index.to_list(),  "id" : "CA_par_produit" , "type" : "bar" }, 
+    "revenu_produit" : {"data" : revenu_produit.total_revenue.tolist() , "labels" : revenu_produit.product_name.to_list(), "id" : "revenu_produit" , "type" : "pie" },
+    "crm_statut" : {"data" : CRM_statut.values.tolist() , "labels" : CRM_statut.index.tolist(), "id" : "crm_statut" , "type" : "pie"},
+    "ca_par_employee" : {"data" :CA_par_employee.total_sales.tolist()  , "labels" : CA_par_employee.employee_name.tolist(), "id" : "ca_par_employee" , "type" : "bar"},
+    "ca_mois" : {"data" : CA_mois.tolist() , "labels" : CA_mois.index.to_list(), "id" : "ca_mois" , "type" : "line"},
+    "ca_year" : {"data" : CA_year.tolist() , "labels" : CA_year.index.to_list()},
+    "ca_quarter" : {"data" : CA_quarter.tolist() , "labels" : CA_quarter.index.to_list()},
+    #--------------------------------------------------------
+    "ca_par_produit1" : {"data" : CA_par_produit1.total_quantity.to_list() , 
+                        "labels" :  CA_par_produit1.index.to_list(),  "id" : "CA_par_produit1" , "type" : "bar" }, 
+    "revenu_produit1" : {"data" : revenu_produit1.total_revenue.tolist() , "labels" : revenu_produit1.product_name.to_list(), "id" : "revenu_produit1" , "type" : "bar" },
+    "revenue_by_category" : {"data" : revenue_by_product_category.values.tolist() , "labels" : revenue_by_product_category.index.to_list(), "id" : "revenue_by_category" , "type" : "bar" },
+    "total_quantity_sold_category" : {"data" : total_quantity_sold_by_product_category.values.tolist() , "labels" : total_quantity_sold_by_product_category.index.to_list(), "id" : "total_quantity_sold_category" , "type" : "bar" },
+    "plus_marge_brutes" : {"data" : plus_marge_brute.values.tolist() , "labels" : plus_marge_brute.index.to_list(), "id" : "plus_marge_brutes" , "type" : "bar" },
+    "moins_marge_brutes" : {"data" : moins_marge_brute.values.tolist() , "labels" : moins_marge_brute.index.to_list(), "id" : "moins_marge_brutes" , "type" : "bar" },
+
+
   }
-    return render(request, 'pages/clients.html', context)
+    return render(request, 'pages/formations.html', context)
 
 # @login_required(login_url='/accounts/auth-signin')
 def typography(request):
