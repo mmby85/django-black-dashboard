@@ -48,6 +48,7 @@ def user_logout_view(request):
   return redirect('/accounts/auth-signin/')
 
 # Pages -- Dashboard
+# @login_required(login_url='/accounts/auth-signin')
 def dashboard(request):
 
     context = {

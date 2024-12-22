@@ -17,29 +17,13 @@
 <script src="{% static 'assets/demo/demo.js' %}"></script>
 <script src="{% static 'assets/js/themeSettings.js' %}"></script>
 
-<script>
-    console.log({{chiffre_affaire.data}}, {{chiffre_affaire.labels}}, '{{chiffre_affaire.id}}', '{{chiffre_affaire.type}}')
-    $(document).ready(function () {
-        // Javascript method's body can be found in assets/js/demos.js
-        var chart_data = [100, 70, 90, 70, 85, 60, 75, 60, 90, 80, 110, 100];
-        
-        demo.initDashboardPageCharts(chart_data);
-        demo.DrawChart( {{chiffre_affaire.data}}, {{chiffre_affaire.labels}}, 
-        '{{chiffre_affaire.id}}','{{chiffre_affaire.type}}');
-
-        demo.DrawChart( {{client.data}}, {{client.labels}}, 
-        '{{client.id}}','{{client.type}}');
-
-
-    });
-</script>
 <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
 <script>
-    window.TrackJS &&
-        TrackJS.install({
-            token: "ee6fab19c5a04ac1a32a645abde4613a",
-            application: "black-dashboard-free"
-        });
+    // window.TrackJS &&
+    //     TrackJS.install({
+    //         token: "ee6fab19c5a04ac1a32a645abde4613a",
+    //         application: "black-dashboard-free"
+    //     });
 
 
 </script>
